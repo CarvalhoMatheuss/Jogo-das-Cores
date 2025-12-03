@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------
-   VARIÁVEIS DE TEMA
+   VARIÁVEIS DO TEMA
 ----------------------------------------------------------- */
 :root {
     --primary-color: #002f72;
@@ -15,19 +15,22 @@
 }
 
 /* -----------------------------------------------------------
-   LAYOUT GERAL
+   LAYOUT GLOBAL
 ----------------------------------------------------------- */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0; /* Cor fallback */
+    background-color: #f0f0f0; /* fallback */
+    min-height: 100vh;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+
+    transition: background-color 1s ease;
 }
 
-/* Animação opcional do background (controlada via JS) */
+/* ANIMAÇÃO DO BACKGROUND (ativada via JS) */
 @keyframes gradient-animation {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -35,29 +38,34 @@ body {
 }
 
 .moving-gradient {
-    background-size: 400% 400%; 
-    animation: gradient-animation 15s ease infinite;
+    background-size: 400% 400%;
+    animation: gradient-animation 12s ease infinite;
 }
 
 /* -----------------------------------------------------------
-   CARD PRINCIPAL (MAIN)
+   MAIN (CARD GLASS)
 ----------------------------------------------------------- */
 main {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
+
     border-radius: 30px;
     padding: 40px;
-    width: 90%;
     max-width: 750px;
+    width: 90%;
     margin: 40px auto 20px auto;
+
     position: relative;
-    text-align: center;
     overflow: hidden;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+
+    text-align: center;
+
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
 }
 
+/* Efeito de luz giratória dentro do glass */
 main::before {
     content: "";
     position: absolute;
@@ -78,7 +86,7 @@ main::before {
 }
 
 /* -----------------------------------------------------------
-   HEADER INTERNO (TÍTULO + SUBTÍTULOS)
+   HEADER INTERNO DO CARD
 ----------------------------------------------------------- */
 .inner-header {
     margin-bottom: 25px;
@@ -98,7 +106,7 @@ main::before {
 }
 
 /* -----------------------------------------------------------
-   SEÇÃO DE INÍCIO DO JOGO
+   SEÇÃO INICIAL
 ----------------------------------------------------------- */
 .inicio h2 {
     color: #fff;
@@ -115,13 +123,13 @@ main::before {
 #start-button {
     background-color: var(--primary-color);
     color: white;
-    padding: 10px 20px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 1.2em;
     cursor: pointer;
-    margin-bottom: 20px;
-    transition: 0.3s;
+    margin: 20px 0;
+    transition: 0.3s ease;
 }
 
 #start-button:hover {
@@ -134,28 +142,30 @@ main::before {
 .board-grid {
     display: grid;
     gap: 14px;
-    max-width: 420px;
     margin: 25px auto;
+    max-width: 420px;
+
     padding: 15px;
     background: rgba(255,255,255,0.08);
+
     border-radius: 18px;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
+
     border: 1px solid rgba(255,255,255,0.18);
 }
 
 .color-tile {
     width: 100%;
-    padding-top: 100%;
+    padding-top: 100%; /* quadrado perfeito */
     cursor: pointer;
-    position: relative;
-    border-radius: var(--shape, 10%); /* ← shape varia */
+    border-radius: var(--shape, 10%);
     box-shadow: 0 3px 8px rgba(0,0,0,0.25);
     transition: 0.25s ease;
 }
 
 .color-tile:hover {
-    transform: scale(1.08);
+    transform: scale(1.1);
     box-shadow: 0 6px 14px rgba(0,0,0,0.35);
 }
 
@@ -170,17 +180,20 @@ main::before {
 }
 
 /* -----------------------------------------------------------
-   FOOTER GLASS
+   FOOTER
 ----------------------------------------------------------- */
 footer {
     width: 100%;
     padding: 20px;
     margin-top: 20px;
     text-align: center;
+
     color: #fff;
     font-size: 0.9em;
+
     background: rgba(255,255,255,0.10);
     border-top: 1px solid rgba(255,255,255,0.3);
+
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 }
@@ -189,18 +202,16 @@ footer {
    RESPONSIVIDADE
 ----------------------------------------------------------- */
 @media (max-width: 600px) {
+    main {
+        padding: 28px;
+    }
+
+    .inner-header h1 {
+        font-size: 1.6em;
+    }
+
     .board-grid {
         gap: 10px;
         padding: 12px;
-    }
-}
-
-@media (max-width: 600px) {
-    main {
-        padding: 28px;
-        border-radius: 25px;
-    }
-    .inner-header h1 {
-        font-size: 1.6em;
     }
 }
