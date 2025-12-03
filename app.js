@@ -4,7 +4,7 @@
 const COLOR_LIST = [
     "#FF0000", "#008000", "#0000FF", "#FFFF00",
     "#FF7F50", "#40E0D0", "#800080", "#FFA500",
-    "#00FFFF", "#000000", "#FFFFFF", "#A52A2A"
+    "#00FFFF", "#4f7b4a", "#c05a3d", "#A52A2A"
 ];
 
 // -------------------------------
@@ -17,41 +17,56 @@ let gameActive = false;
 // -------------------------------
 // ELEMENTOS DOM
 // -------------------------------
-const startBtn = document.getElementById("start-button");
-const boardGrid = document.querySelector(".board-grid");
-const resultDiv = document.getElementById("result");
-const body = document.body;
+let startBtn;
+let boardGrid;
+let resultDiv;
+let body;
 
+// -------------------------------
+// INICIALIZAÇÃO
+// -------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+    // Busca os elementos apenas uma vez
+    startBtn = document.getElementById("start-button");
+    boardGrid = document.querySelector(".board-grid");
+    resultDiv = document.getElementById("result");
+    body = document.body;
+
+    // Adiciona o evento de clique apenas uma vez
+    if (startBtn) {
+        startBtn.addEventListener("click", startGame);
+    }
+});
 
 // -------------------------------
 // FUNÇÕES DO JOGO
 // -------------------------------
 
-// Gera 9 cores aleatórias, garante que uma delas será a cor alvo
 function generateColors() {
+    // Escolhe a cor alvo
     targetColor = COLOR_LIST[Math.floor(Math.random() * COLOR_LIST.length)];
 
     const selected = new Set();
+    // Garante que não repete cores na lista de preenchimento
     while (selected.size < 8) {
         const c = COLOR_LIST[Math.floor(Math.random() * COLOR_LIST.length)];
         if (c !== targetColor) selected.add(c);
     }
 
     const colorArray = [...selected];
+    // Insere a cor alvo em uma posição aleatória
     const randomIndex = Math.floor(Math.random() * 9);
     colorArray.splice(randomIndex, 0, targetColor);
 
     return colorArray;
 }
 
-// Define a animação do fundo usando as cores da rodada
 function applyBackgroundAnimation(colors) {
     const gradient = `linear-gradient(45deg, ${colors.join(", ")})`;
     body.style.backgroundImage = gradient;
     body.classList.add("moving-gradient");
 }
 
-// Cria o grid visualmente
 function renderGrid(colors) {
     boardGrid.innerHTML = "";
     boardGrid.style.gridTemplateColumns = "repeat(3, 1fr)";
@@ -61,7 +76,7 @@ function renderGrid(colors) {
         tile.classList.add("color-tile");
         tile.style.backgroundColor = color;
 
-        // shape aleatório
+        // Cria formas variadas usando variáveis CSS
         const shapes = ["10%", "30%", "50%", "0%"];
         tile.style.setProperty("--shape", shapes[Math.floor(Math.random() * shapes.length)]);
 
@@ -71,18 +86,7 @@ function renderGrid(colors) {
         boardGrid.appendChild(tile);
     });
 }
-document.addEventListener("DOMContentLoaded", () => {
-    initGame();
-});
 
-function initGame() {
-    const startBtn = document.getElementById("start-button");
-    const board = document.querySelector(".board-grid");
-    const result = document.getElementById("result");
-
-    startBtn.addEventListener("click", startGame);
-}
-// Inicia jogo
 function startGame() {
     gameActive = true;
     attempts = 3;
@@ -93,11 +97,11 @@ function startGame() {
     applyBackgroundAnimation(colors);
 
     resultDiv.innerHTML = `<p>Tentativas restantes: <strong>${attempts}</strong></p>`;
-
+    
+    // Tratativa de erro caso o botão não seja encontrado
     startBtn.style.display = "none";
 }
 
-// Lógica quando o jogador clica em uma cor
 function handleGuess(event) {
     if (!gameActive) return;
 
@@ -121,41 +125,40 @@ function handleGuess(event) {
     }
 }
 
-// Finalização da rodada
 function endGame(win) {
     gameActive = false;
 
+    // Desabilita cliques
     document.querySelectorAll(".color-tile").forEach(tile => {
         tile.style.pointerEvents = "none";
     });
 
-    // Fundo final
+    // Reset visual do fundo
     body.classList.remove("moving-gradient");
     body.style.backgroundImage = "none";
     body.style.backgroundColor = targetColor;
 
     if (win) {
         resultDiv.innerHTML = `
-            <h2 style="color:#00ff88;">🎉 Acertou!</h2>
+            <h2 style="color:#00ff88; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">🎉 Acertou!</h2>
             <p>A cor era: <strong>${targetColor}</strong></p>
         `;
     } else {
         resultDiv.innerHTML = `
-            <h2 style="color:#ff5555;">❌ Você perdeu!</h2>
+            <h2 style="color:#ff5555; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">❌ Você perdeu!</h2>
             <p>A cor correta era: <strong>${targetColor}</strong></p>
         `;
 
+        // Destaca qual a cor correta
         const correctTile = document.querySelector(`.color-tile[data-color="${targetColor}"]`);
         if (correctTile) {
             correctTile.style.border = "5px solid white";
             correctTile.style.opacity = "1";
+            correctTile.style.transform = "scale(1.1)";
         }
     }
 
+    // Mostra o botão novamente
     startBtn.textContent = "Jogar Novamente";
-    startBtn.style.display = "block";
+    startBtn.style.display = "inline-block"; // Garante que volta a aparecer
 }
-
-// Evento
-startBtn.addEventListener("click", startGame);
-

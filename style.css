@@ -30,7 +30,7 @@ body {
     transition: background-color 1s ease;
 }
 
-/* ANIMAÇÃO DO BACKGROUND (ativada via JS) */
+/* ANIMAÇÃO DO BACKGROUND */
 @keyframes gradient-animation {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -43,7 +43,7 @@ body {
 }
 
 /* -----------------------------------------------------------
-   MAIN (CARD GLASS)
+   MAIN 
 ----------------------------------------------------------- */
 main {
     background: rgba(255, 255, 255, 0.08);
@@ -65,7 +65,7 @@ main {
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
 }
 
-/* Efeito de luz giratória dentro do glass */
+/* Efeito de luz*/
 main::before {
     content: "";
     position: absolute;
@@ -73,6 +73,8 @@ main::before {
     left: -30%;
     width: 200%;
     height: 200%;
+    pointer-events: none; 
+    
     background: radial-gradient(circle,
         rgba(255, 255, 255, 0.18) 0%,
         transparent 60%
@@ -86,7 +88,7 @@ main::before {
 }
 
 /* -----------------------------------------------------------
-   HEADER INTERNO DO CARD
+   HEADER 
 ----------------------------------------------------------- */
 .inner-header {
     margin-bottom: 25px;
