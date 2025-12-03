@@ -71,7 +71,17 @@ function renderGrid(colors) {
         boardGrid.appendChild(tile);
     });
 }
+document.addEventListener("DOMContentLoaded", () => {
+    initGame();
+});
 
+function initGame() {
+    const startBtn = document.getElementById("start-button");
+    const board = document.querySelector(".board-grid");
+    const result = document.getElementById("result");
+
+    startBtn.addEventListener("click", startGame);
+}
 // Inicia jogo
 function startGame() {
     gameActive = true;
@@ -148,3 +158,4 @@ function endGame(win) {
 
 // Evento
 startBtn.addEventListener("click", startGame);
+
